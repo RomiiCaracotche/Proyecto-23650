@@ -2,12 +2,11 @@ package com.ar.cac.tpfinal.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cuentas")
+@Table(name = "transferencias")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,14 +18,21 @@ public class Transfer {
     @Column(name = "id_transferencia")
     private Long id;
 
+    @Column(name = "cuenta_origen")
     @ManyToOne
-    private Long origin;
+    private Account origin;
 
-    private Long target;
+    @OneToMany
+    @Column(name = "cuenta_destino")
+    private Account target;
 
+    @Column(name = "fecha")
     private LocalDateTime date;
 
+    @Column(name = "monto")
     private BigDecimal amount;
+
+    @Column(name = "eliminado")
 
     private String deleted;
 

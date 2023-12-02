@@ -1,5 +1,6 @@
 package com.ar.cac.tpfinal.dtos;
 
+import com.ar.cac.tpfinal.entities.Account;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,9 +19,9 @@ public class TransferDto {
 
     private Long id;
 
-    private Long origin;
+    private Account origin;
 
-    private Long target;
+    private Account target;
 
     private LocalDateTime date;
 
