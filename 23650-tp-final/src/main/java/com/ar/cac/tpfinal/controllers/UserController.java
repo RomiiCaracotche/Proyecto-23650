@@ -29,21 +29,21 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(user));
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(dto));
     }
 
     // Modificacion total
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> updateTotalUser(@PathVariable Long id, @RequestBody UserDto user) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateTotalUser(id, user));
+    public ResponseEntity<UserDto> updateTotalUser(@PathVariable Long id, @RequestBody UserDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateTotalUser(id, dto));
     }
 
     // Modificacion parcial
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<UserDto> updateParcialUser(@PathVariable Long id, @RequestBody UserDto user) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateParcialUser(id, user));
+    public ResponseEntity<UserDto> updateParcialUser(@PathVariable Long id, @RequestBody UserDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateParcialUser(id, dto));
     }
 
     // TODO: hacer baja logica, no fisica!!!

@@ -16,7 +16,9 @@ public class TransferService {
     }
     @Transactional
     public TransferDto createTransfer(TransferDto transfer) {
-        //verificar si las dos cuentas existen
+        //min 57
+
+        //verificar si las dos cuentas existen (origen y destino)
 
         //comprobar si la cuenta de origen tiene fondos
 

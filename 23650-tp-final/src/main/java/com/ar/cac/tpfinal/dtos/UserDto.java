@@ -37,4 +37,6 @@ public class UserDto {
 
     private List<Account> accounts;
 
+    private Boolean deleted;
+
 }

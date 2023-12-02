@@ -19,6 +19,7 @@ public class Transfer {
     @Column(name = "id_transferencia")
     private Long id;
 
+    @ManyToOne
     private Long origin;
 
     private Long target;
@@ -26,5 +27,7 @@ public class Transfer {
     private LocalDateTime date;
 
     private BigDecimal amount;
+
+    private String deleted;
 
 }

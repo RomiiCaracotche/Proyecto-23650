@@ -43,7 +43,10 @@ public class User {
 
     private LocalDateTime updated_at;
 
-    @OneToMany
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Account> accounts;
+
+    @Column(name = "borrado")
+    private Boolean deleted;
 
 }

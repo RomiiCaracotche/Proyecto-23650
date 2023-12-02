@@ -42,6 +42,8 @@ public class Account {
     @ManyToOne
     private User owner;
 
-    @OneToMany(mappedBy = "origin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
+
+    private String deleted;
 }

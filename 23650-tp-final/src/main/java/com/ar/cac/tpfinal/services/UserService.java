@@ -33,28 +33,35 @@ public class UserService {
         return UserMapper.userToDto(user);
     }
 
-    public UserDto createUser(UserDto user){
+    public UserDto createUser(UserDto dto){
         // TODO: validacion de email existente
+        User user = repository.findByEmail(dto.getEmail());
+        if(user == null) {
+            dto.setDeleted(false);
+            User entitySaved = repository.save(UserMapper.dtoTouser(dto));
+            dto = UserMapper.userToDto(entitySaved);
+            dto.setPassword("******");
+            return dto;
+        }
 
-        User entitySaved = repository.save(UserMapper.dtoTouser(user));
-        user = UserMapper.userToDto(entitySaved);
-        user.setPassword("******");
-        return user;
+        return null;
     }
 
     //Put
     public UserDto updateTotalUser(Long id, UserDto dto) {
         if (repository.existsById(id)){
             User userToModify = repository.findById(id).get();
-            userToModify.setUsername(dto.getUsername());
-            userToModify.setPassword(dto.getPassword());
-            userToModify.setEmail(dto.getEmail());
-            userToModify.setDni(dto.getDni());
-            userToModify.setAddress(dto.getAddress());
-            userToModify.setBirthday_date(dto.getBirthday_date());
-            userToModify.setUpdated_at(LocalDateTime.now());
-            User userModified = repository.save(userToModify);
-            return UserMapper.userToDto(userModified);
+            if(userToModify.getDeleted() == false) {
+                userToModify.setUsername(dto.getUsername());
+                userToModify.setPassword(dto.getPassword());
+                userToModify.setEmail(dto.getEmail());
+                userToModify.setDni(dto.getDni());
+                userToModify.setAddress(dto.getAddress());
+                userToModify.setBirthday_date(dto.getBirthday_date());
+                userToModify.setUpdated_at(LocalDateTime.now());
+                User userModified = repository.save(userToModify);
+                return UserMapper.userToDto(userModified);
+            }
         }
         return null;
     }
@@ -63,45 +70,50 @@ public class UserService {
     public UserDto updateParcialUser(Long id, UserDto dto) {
         if (repository.existsById(id)){
             User userToModify = repository.findById(id).get();
+            if(userToModify.getDeleted() == false) {
+                //User userToModify = repository.findById(id).get();
 
-            if (dto.getUsername() != null){
-                userToModify.setUsername(dto.getUsername());
-            }
-            if (dto.getEmail() != null && validateUserByEmail(dto) == null){
-                userToModify.setEmail(dto.getEmail());
-            }
-            if (dto.getPassword() != null){
-                userToModify.setPassword(dto.getPassword());
-            }
-            if (dto.getDni() != null){
-                userToModify.setDni(dto.getDni());
-            }
-            if (dto.getAddress() != null){
-                userToModify.setAddress(dto.getAddress());
-            }
-            if (dto.getBirthday_date() != null){
-                userToModify.setBirthday_date(dto.getBirthday_date());
-            }
+                if (dto.getUsername() != null) {
+                    userToModify.setUsername(dto.getUsername());
+                }
+                if (dto.getEmail() != null && repository.findByEmail(dto.getEmail()) == null) {
+                    userToModify.setEmail(dto.getEmail());
+                }
+                if (dto.getPassword() != null) {
+                    userToModify.setPassword(dto.getPassword());
+                }
+                if (dto.getDni() != null) {
+                    userToModify.setDni(dto.getDni());
+                }
+                if (dto.getAddress() != null) {
+                    userToModify.setAddress(dto.getAddress());
+                }
+                if (dto.getBirthday_date() != null) {
+                    userToModify.setBirthday_date(dto.getBirthday_date());
+                }
 
-            userToModify.setUpdated_at(LocalDateTime.now());
-            User userModified = repository.save(userToModify);
-            return UserMapper.userToDto(userModified);
+                userToModify.setUpdated_at(LocalDateTime.now());
+                User userModified = repository.save(userToModify);
+                return UserMapper.userToDto(userModified);
+            }
         }
         return null;
     }
 
-    // TODO: hacer aca baja logica
     public String deleteUser(Long id){
         if (repository.existsById(id)){
-            repository.deleteById(id);
+            User userToDeleted = repository.findById(id).get();
+            if(userToDeleted.getDeleted() == false) {
+                userToDeleted.setDeleted(true);
+            }
             return "El usuario con id: " + id + " ha sido eliminado correctamente.";
         } else {
             return "El usuario con id: " + id + ", no existe.";
         }
     }
 
-    public User validateUserByEmail(UserDto dto){
-        return repository.findByEmail(dto.getEmail());
-    }
+    //public User validateUserByEmail(UserDto dto){
+    //    return repository.findByEmail(dto.getEmail());
+    //}
 
 }
