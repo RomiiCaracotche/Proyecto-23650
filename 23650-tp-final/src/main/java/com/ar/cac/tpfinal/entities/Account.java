@@ -42,7 +42,6 @@ public class Account {
     private User owner;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
 
     @Column(name = "eliminado")
