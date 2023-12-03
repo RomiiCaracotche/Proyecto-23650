@@ -21,14 +21,6 @@ public class Transfer {
 
     private Long id_target;
 
-    //@Column(name = "cuenta_origen")
-    //@ManyToOne
-    //private Account origin;
-
-    //@ManyToOne
-    //@Column(name = "cuenta_destino")
-    //private Account target;
-
     @Column(name = "fecha")
     private LocalDateTime date;
 
