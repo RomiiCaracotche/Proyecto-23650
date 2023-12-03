@@ -17,12 +17,17 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long id_origin;
+
+    private Long id_target;
+
+    //@Column(name = "cuenta_origen")
     //@ManyToOne
     //private Account origin;
-    private Long id_origin;
+
     //@ManyToOne
+    //@Column(name = "cuenta_destino")
     //private Account target;
-    private Long id_target;
 
     @Column(name = "fecha")
     private LocalDateTime date;
