@@ -18,12 +18,12 @@ public class Transfer {
     @Column(name = "id_transferencia")
     private Long id;
 
-    @Column(name = "cuenta_origen")
+    //@Column(name = "cuenta_origen")
     @ManyToOne
     private Account origin;
 
-    @OneToMany
-    @Column(name = "cuenta_destino")
+    @ManyToOne
+    //@Column(name = "cuenta_destino")
     private Account target;
 
     @Column(name = "fecha")

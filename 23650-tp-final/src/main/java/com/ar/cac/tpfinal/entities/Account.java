@@ -38,7 +38,7 @@ public class Account {
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_at;
 
-    @Column(name = "duenio")
+    //@Column(name = "duenio")
     @ManyToOne
     private User owner;
 
