@@ -44,5 +44,5 @@ public class Account {
     private List<Transfer> transfers;
 
     @Column(name = "eliminado")
-    private String deleted;
+    private Boolean deleted;
 }

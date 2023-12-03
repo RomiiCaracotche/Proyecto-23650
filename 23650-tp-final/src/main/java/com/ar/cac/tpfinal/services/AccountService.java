@@ -3,10 +3,14 @@ package com.ar.cac.tpfinal.services;
 import com.ar.cac.tpfinal.dtos.AccountDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Enums.AccountType;
+import com.ar.cac.tpfinal.entities.Transfer;
+import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +35,22 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountDto dto) {
-        dto.setAmount(BigDecimal.ZERO);
-        // TODO: REFACTOR para crear diferentes tipos de cuenta inicial
-        // TODO: REFACTOR para modificar created_at y updated_at
-        dto.setType(AccountType.CAJA_AHORRO_PESOS);
-        Account newAccount = AccountMapper.dtoToAccount(dto);
-        return AccountMapper.accountToDto(repository.save(newAccount));
+        //por dto me viene type y alias
+        //String cbuGenerator = Long.toString(1000000000L + (long) (Math.random() * (9999999999L - 1000000000L)));
+        //dto.setCbu(cbuGenerator);
+        //dto.setCbu("00000000000000000000001");
+        //Account cbu = repository.findByCbu("00000000000000000000001");
+        //Account alias = repository.findByAlias(dto.getAlias());
+        //if(cbu == null) {
+            dto.setAmount(BigDecimal.ZERO);
+            dto.setDeleted(false);
+            dto.setTransfers(new ArrayList<Transfer>());
+            dto.setCreated_at(LocalDateTime.now());
+            dto.setUpdated_at(LocalDateTime.now());
+            Account newAccount = AccountMapper.dtoToAccount(dto);
+            return AccountMapper.accountToDto(repository.save(newAccount));
+        //}
+        //return null;
     }
 
     public AccountDto updateAccount(Long id, AccountDto dto) {

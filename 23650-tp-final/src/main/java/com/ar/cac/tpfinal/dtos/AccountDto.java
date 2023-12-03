@@ -38,4 +38,6 @@ public class AccountDto {
 
     private List<Transfer> transfers;
 
+    private Boolean deleted;
+
 }
