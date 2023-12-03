@@ -38,11 +38,11 @@ public class Account {
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_at;
 
-    @Column(name = "duenio")
     @ManyToOne
     private User owner;
 
-    @OneToMany(mappedBy = "origin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    //@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;
 
     @Column(name = "eliminado")

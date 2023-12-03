@@ -15,16 +15,14 @@ import java.time.LocalDateTime;
 public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_transferencia")
     private Long id;
 
-    @Column(name = "cuenta_origen")
-    @ManyToOne
-    private Account origin;
-
-    @OneToMany
-    @Column(name = "cuenta_destino")
-    private Account target;
+    //@ManyToOne
+    //private Account origin;
+    private Long id_origin;
+    //@ManyToOne
+    //private Account target;
+    private Long id_target;
 
     @Column(name = "fecha")
     private LocalDateTime date;
@@ -33,7 +31,6 @@ public class Transfer {
     private BigDecimal amount;
 
     @Column(name = "eliminado")
-
     private String deleted;
 
 }

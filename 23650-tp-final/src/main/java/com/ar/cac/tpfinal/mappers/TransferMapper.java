@@ -12,8 +12,8 @@ public class TransferMapper {
         return Transfer.builder()
                 .amount(dto.getAmount())
                 .date(dto.getDate())
-                .origin(dto.getOrigin())
-                .target(dto.getTarget())
+                .id(dto.getId())
+                .id(dto.getId())
                 .build();
     }
 

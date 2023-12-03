@@ -22,19 +22,34 @@ public class UserService {
         List<User> users = repository.findAll();
         List<UserDto> usersDto = new ArrayList<UserDto>();
         for (User user: users) {
-            usersDto.add(UserMapper.userToDto(user));
+            if(user.getDeleted() == false) {
+                usersDto.add(UserMapper.userToDto(user));
+            }
+        }
+        return usersDto;
+    }
+
+    public List<UserDto> getUsersDeleted(){
+        List<User> users = repository.findAll();
+        List<UserDto> usersDto = new ArrayList<UserDto>();
+        for (User user: users) {
+            if(user.getDeleted()) {
+                usersDto.add(UserMapper.userToDto(user));
+            }
         }
         return usersDto;
     }
 
     public UserDto getUserById(Long id){
         User user = repository.findById(id).get();
-        user.setPassword("******");
-        return UserMapper.userToDto(user);
+        if(user.getDeleted() == false) {
+            user.setPassword("******");
+            return UserMapper.userToDto(user);
+        }
+        return null;
     }
 
     public UserDto createUser(UserDto dto){
-        // TODO: validacion de email existente
         User user = repository.findByEmail(dto.getEmail());
         if(user == null) {
             dto.setDeleted(false);
@@ -43,7 +58,6 @@ public class UserService {
             dto.setPassword("******");
             return dto;
         }
-
         return null;
     }
 
@@ -105,6 +119,7 @@ public class UserService {
             User userToDeleted = repository.findById(id).get();
             if(userToDeleted.getDeleted() == false) {
                 userToDeleted.setDeleted(true);
+                repository.save(userToDeleted);
             }
             return "El usuario con id: " + id + " ha sido eliminado correctamente.";
         } else {

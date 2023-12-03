@@ -23,6 +23,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUsers());
     }
 
+    @GetMapping(value = "/deleted")
+    public ResponseEntity<List<UserDto>> getUsersDeleted() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getUsersDeleted());
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
@@ -46,7 +51,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.updateParcialUser(id, dto));
     }
 
-    // TODO: hacer baja logica, no fisica!!!
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteUser(id));
