@@ -1,9 +1,11 @@
 package com.ar.cac.tpfinal.services;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
+import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Enums.AccountType;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
+import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -14,9 +16,11 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository repository;
+    private final UserService userService;
 
-    private AccountService(AccountRepository repository){
+    private AccountService(AccountRepository repository, UserService userService){
         this.repository = repository;
+        this.userService = userService;
     }
 
     public AccountDto getAccountById(Long id) {
@@ -35,6 +39,7 @@ public class AccountService {
         // TODO: REFACTOR para crear diferentes tipos de cuenta inicial
         // TODO: REFACTOR para modificar created_at y updated_at
         dto.setType(AccountType.CAJA_AHORRO_PESOS);
+
         Account newAccount = AccountMapper.dtoToAccount(dto);
         return AccountMapper.accountToDto(repository.save(newAccount));
     }

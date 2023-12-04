@@ -21,6 +21,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long referencia;
+
     @Column(name = "tipo_cuenta")
     private AccountType type;
 

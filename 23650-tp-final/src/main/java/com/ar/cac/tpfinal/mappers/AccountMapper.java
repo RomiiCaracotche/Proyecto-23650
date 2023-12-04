@@ -20,6 +20,9 @@ public class AccountMapper {
         dto.setCbu(account.getCbu());
         dto.setAlias(account.getAlias());
         dto.setAmount(account.getAmount());
+        dto.setReferencia(account.getReferencia());
+
+        dto.setOwner(account.getOwner());
 
         return dto;
     }
@@ -31,7 +34,9 @@ public class AccountMapper {
         account.setType(dto.getType());
         account.setCbu(dto.getCbu());
         account.setAmount(dto.getAmount());
+        account.setReferencia(dto.getReferencia());
 
+        account.setOwner(dto.getOwner());
         return account;
     }
 }
