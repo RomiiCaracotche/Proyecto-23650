@@ -22,6 +22,8 @@ public class AccountDto {
 
     private Long id;
 
+    private Long referencia;
+
     private AccountType type;
 
     private String cbu;

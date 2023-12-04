@@ -2,6 +2,7 @@ package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
 import com.ar.cac.tpfinal.services.AccountService;
+import com.ar.cac.tpfinal.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService service;
+    private final UserService userService;
 
-    private AccountController(AccountService service){
+    private AccountController(AccountService service, UserService userService){
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -29,7 +32,11 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto account){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(account));
+
+        account.setOwner(userService.userToAssign(account.getReferencia()));
+        ResponseEntity<AccountDto> accountCreada = ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(account));
+
+        return accountCreada;
     }
 
     @PutMapping(value="/{id}")

@@ -1,11 +1,13 @@
 package com.ar.cac.tpfinal.services;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
+import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Enums.AccountType;
 import com.ar.cac.tpfinal.entities.Transfer;
 import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
+import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository repository;
+    private final UserService userService;
 
-    private AccountService(AccountRepository repository){
+    private AccountService(AccountRepository repository, UserService userService){
         this.repository = repository;
+        this.userService = userService;
     }
 
     public AccountDto getAccountById(Long id) {
@@ -48,7 +52,7 @@ public class AccountService {
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());
             Account newAccount = AccountMapper.dtoToAccount(dto);
-            return AccountMapper.accountToDto(repository.save(newAccount));
+        return AccountMapper.accountToDto(repository.save(newAccount));
         //}
         //return null;
     }
