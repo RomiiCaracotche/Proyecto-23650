@@ -42,9 +42,11 @@ public class UserService {
 
     public UserDto getUserById(Long id){
         User user = repository.findById(id).get();
-        if(user.getDeleted() == false) {
-            user.setPassword("******");
-            return UserMapper.userToDto(user);
+        if(user != null) {
+            if(user.getDeleted() == false) {
+                user.setPassword("******");
+                return UserMapper.userToDto(user);
+            }
         }
         return null;
     }
