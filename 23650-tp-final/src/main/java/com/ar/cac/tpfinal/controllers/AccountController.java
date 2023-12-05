@@ -2,7 +2,6 @@ package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
 import com.ar.cac.tpfinal.services.AccountService;
-import com.ar.cac.tpfinal.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +10,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
-
     private final AccountService service;
-    //private final UserService userService;
 
-    //private AccountController(AccountService service, UserService userService){
-    //    this.service = service;
-    //    this.userService = userService;
-    //}
-
-    private AccountController(AccountService service){
+    public AccountController(AccountService service){
         this.service = service;
     }
 

@@ -4,6 +4,7 @@ import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,11 +13,8 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepository repository;
-
-    public UserService(UserRepository repository){
-        this.repository = repository;
-    }
+    @Autowired
+    private UserRepository repository;
 
     public List<UserDto> getUsers(){
         List<User> users = repository.findAll();

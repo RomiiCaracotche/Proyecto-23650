@@ -19,9 +19,9 @@ public class TransferDto {
 
     private Long id;
 
-    private Long id_origin;
+    private Long origin;
 
-    private Long id_target;
+    private Long target;
 
     private LocalDateTime date;
 

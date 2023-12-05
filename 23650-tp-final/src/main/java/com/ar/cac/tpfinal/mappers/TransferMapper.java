@@ -7,19 +7,23 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TransferMapper {
 
-    //PATRON BUILDER: permite crear los objetos sin definir un constructor y setearle los atributos necesarios
-    public Transfer dtoToTransfer(TransferDto dto) {
+    public Transfer dtoToTransfer(TransferDto dto){
         return Transfer.builder()
                 .amount(dto.getAmount())
                 .date(dto.getDate())
-                .id(dto.getId())
-                .id(dto.getId())
+                .origin(dto.getOrigin())
+                .target(dto.getTarget())
                 .build();
     }
 
-    public TransferDto TransferToDto(Transfer transfer) {
-        //agregar id
-        return null;
+    public TransferDto transferToDto(Transfer transfer){
+        return TransferDto.builder()
+                .id(transfer.getId())
+                .amount(transfer.getAmount())
+                .target(transfer.getTarget())
+                .origin(transfer.getOrigin())
+                .date(transfer.getDate())
+                .build();
     }
 
 }

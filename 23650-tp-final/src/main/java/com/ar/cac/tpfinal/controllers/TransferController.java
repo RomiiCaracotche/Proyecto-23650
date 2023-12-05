@@ -1,9 +1,7 @@
 package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.TransferDto;
-import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.services.TransferService;
-import com.ar.cac.tpfinal.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

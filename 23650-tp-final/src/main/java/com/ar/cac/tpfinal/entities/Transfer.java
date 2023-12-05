@@ -17,9 +17,9 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long id_origin;
+    private Long origin;
 
-    private Long id_target;
+    private Long target;
 
     @Column(name = "fecha")
     private LocalDateTime date;

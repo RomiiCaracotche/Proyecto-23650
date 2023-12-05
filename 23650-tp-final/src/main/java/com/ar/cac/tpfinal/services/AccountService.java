@@ -1,46 +1,39 @@
 package com.ar.cac.tpfinal.services;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
-import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.entities.Account;
-import com.ar.cac.tpfinal.entities.Enums.AccountType;
 import com.ar.cac.tpfinal.entities.Transfer;
-import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
-import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
 
     private final AccountRepository repository;
-    //private final UserService userService;
 
-    //private AccountService(AccountRepository repository, UserService userService){
-    //    this.repository = repository;
-    //    this.userService = userService;
-   //}
-
-    private AccountService(AccountRepository repository){
+    public AccountService(AccountRepository repository){
         this.repository = repository;
     }
 
     public List<AccountDto> getAccounts() {
-        List<Account> accounts = repository.findAll();
-        List<AccountDto> accountDto = new ArrayList<AccountDto>();
-        for (Account account: accounts) {
-            if(account.getDeleted() == false) {
-                accountDto.add(AccountMapper.accountToDto(account));
+        try {
+            List<Account> accounts = repository.findAll();
+            List<AccountDto> accountDto = new ArrayList<AccountDto>();
+            for (Account account: accounts) {
+                if(account.getDeleted() == false) {
+                    accountDto.add(AccountMapper.accountToDto(account));
+                }
             }
+            return accountDto;
+        } catch (Exception e) {
+            System.out.println("aca esta el error");
         }
-        return accountDto;
-
+        return null;
         //return repository.findAll().stream()
         //        .map(AccountMapper::accountToDto)
         //        .collect(Collectors.toList());
