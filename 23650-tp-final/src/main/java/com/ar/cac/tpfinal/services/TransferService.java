@@ -9,8 +9,8 @@ import com.ar.cac.tpfinal.mappers.TransferMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransferService {
@@ -25,9 +25,11 @@ public class TransferService {
 
     public List<TransferDto> getTransfers(){
         List<Transfer> transfers = repository.findAll();
-        return transfers.stream()
-                .map(TransferMapper::transferToDto)
-                .collect(Collectors.toList());
+        List<TransferDto> TransfersDto = new ArrayList<TransferDto>();
+        for (Transfer transfer: transfers) {
+            TransfersDto.add(TransferMapper.transferToDto(transfer));
+        }
+        return TransfersDto;
     }
 
     public TransferDto getTransferById(Long id){
@@ -39,28 +41,26 @@ public class TransferService {
     public TransferDto createTransfer(TransferDto dto) {
         // Comprobar si ambas cuentas existen
         Account originAccount = accountRepository.findById(dto.getOrigin()).get();
-        Account destinationAccount = accountRepository.findById(dto.getTarget()).get();
+        Account targetAccount = accountRepository.findById(dto.getTarget()).get();
 
         // Comprobar si la cuenta tiene saldo
         if (originAccount.getAmount().compareTo(dto.getAmount()) > 0) {
             originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
-            destinationAccount.setAmount(destinationAccount.getAmount().add(dto.getAmount()));
+            targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
 
             accountRepository.save(originAccount);
-            accountRepository.save(destinationAccount);
+            accountRepository.save(targetAccount);
 
             Transfer transfer = new Transfer();
             transfer.setDate(LocalDateTime.now());
             transfer.setOrigin(originAccount.getId());
-            transfer.setTarget(destinationAccount.getId());
+            transfer.setTarget(targetAccount.getId());
             transfer.setAmount(dto.getAmount());
             transfer = repository.save(transfer);
 
             return TransferMapper.transferToDto(transfer);
         }
         return null;
-
     }
-
 
 }

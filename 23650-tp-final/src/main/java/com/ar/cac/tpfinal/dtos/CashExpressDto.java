@@ -1,5 +1,6 @@
 package com.ar.cac.tpfinal.dtos;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,14 +16,16 @@ public class CashExpressDto {
 
     private Long id;
 
-    private String nombre;
+    private String name;
 
-    private String direccion;
+    private String address;
 
     private String cbu;
 
-    private BigDecimal monto;
+    private BigDecimal amount;
 
-    private LocalDateTime fecha;
+    private LocalDateTime date;
+
+    private String type;
 
 }

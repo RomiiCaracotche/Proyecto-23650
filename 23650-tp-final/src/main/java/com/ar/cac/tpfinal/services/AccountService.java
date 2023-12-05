@@ -21,22 +21,14 @@ public class AccountService {
     }
 
     public List<AccountDto> getAccounts() {
-        try {
-            List<Account> accounts = repository.findAll();
-            List<AccountDto> accountDto = new ArrayList<AccountDto>();
-            for (Account account: accounts) {
-                if(account.getDeleted() == false) {
-                    accountDto.add(AccountMapper.accountToDto(account));
-                }
+        List<Account> accounts = repository.findAll();
+        List<AccountDto> accountDto = new ArrayList<AccountDto>();
+        for (Account account: accounts) {
+            if(account.getDeleted() == false) {
+                accountDto.add(AccountMapper.accountToDto(account));
             }
-            return accountDto;
-        } catch (Exception e) {
-            System.out.println("aca esta el error");
         }
-        return null;
-        //return repository.findAll().stream()
-        //        .map(AccountMapper::accountToDto)
-        //        .collect(Collectors.toList());
+        return accountDto;
     }
 
     public AccountDto getAccountById(Long id) {
@@ -44,23 +36,23 @@ public class AccountService {
         return AccountMapper.accountToDto(account);
     }
 
+    public AccountDto getAccountByCbu(String cbu) {
+        Account account = repository.findByCbu(cbu);
+        return AccountMapper.accountToDto(account);
+    }
+
     public AccountDto createAccount(AccountDto dto) {
-        //por dto me viene type y alias
-        //String cbuGenerator = Long.toString(1000000000L + (long) (Math.random() * (9999999999L - 1000000000L)));
-        //dto.setCbu(cbuGenerator);
-        //dto.setCbu("00000000000000000000001");
-        //Account cbu = repository.findByCbu("00000000000000000000001");
-        //Account alias = repository.findByAlias(dto.getAlias());
-        //if(cbu == null) {
-            dto.setAmount(BigDecimal.ZERO);
+        Account cbu = repository.findByCbu(dto.getCbu());
+        Account alias = repository.findByAlias(dto.getAlias());
+        if(alias == null && cbu == null){
             dto.setDeleted(false);
             dto.setTransfers(new ArrayList<Transfer>());
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());
             Account newAccount = AccountMapper.dtoToAccount(dto);
-        return AccountMapper.accountToDto(repository.save(newAccount));
-        //}
-        //return null;
+            return AccountMapper.accountToDto(repository.save(newAccount));
+        }
+        return null;
     }
 
     public AccountDto updateAccount(Long id, AccountDto dto) {
@@ -70,15 +62,10 @@ public class AccountService {
             if (dto.getAlias() != null){
                 acc.setAlias(dto.getAlias());
             }
-            if (dto.getType() != null){
-                acc.setType(dto.getType());
-            }
-            if (dto.getCbu() != null){
-                acc.setCbu(dto.getCbu());
-            }
             if (dto.getAmount() != null){
                 acc.setAmount(dto.getAmount());
             }
+            repository.save(acc);
             return AccountMapper.accountToDto(acc);
 
         } else {

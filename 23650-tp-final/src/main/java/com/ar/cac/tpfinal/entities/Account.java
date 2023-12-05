@@ -42,8 +42,7 @@ public class Account {
     @ManyToOne
     private User owner;
 
-    //@ManyToOne
-    //private int owner;
+    private int id_owner;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;

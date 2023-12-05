@@ -127,12 +127,4 @@ public class UserService {
         }
     }
 
-    public User userToAssign(Long referencia){
-        return UserMapper.dtoTouser(getUserById(referencia));
-    }
-
-    //public User validateUserByEmail(UserDto dto){
-    //    return repository.findByEmail(dto.getEmail());
-    //}
-
 }

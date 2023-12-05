@@ -26,12 +26,14 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAccountById(id));
     }
 
+    @GetMapping(value = "/cbu/{cbu}")
+    public ResponseEntity<AccountDto> getAccountByCbu(@PathVariable String cbu){
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAccountByCbu(cbu));
+    }
+
     @PostMapping
     public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto){
         return ResponseEntity.status(HttpStatus.OK).body(service.createAccount(dto));
-        //account.setOwner(userService.userToAssign(account.getReferencia()));
-        //ResponseEntity<AccountDto> accountCreada = ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(account));
-        //return accountCreada;
     }
 
     @PutMapping(value="/{id}")
@@ -39,7 +41,6 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, dto));
     }
 
-    //Hacer la baja logica
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteAccount(id));

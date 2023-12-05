@@ -37,7 +37,8 @@ public class AccountDto {
     private LocalDateTime updated_at;
 
     private User owner;
-    //private int owner;
+
+    private int id_owner;
 
     private List<Transfer> transfers;
 

@@ -1,7 +1,6 @@
 package com.ar.cac.tpfinal.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +10,32 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "cash_express")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CashExpress {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String direccion;
+
+    @Column(name = "banco")
+    private String name;
+
+    @Column(name = "direccion")
+    private String address;
+
     private String cbu;
-    private BigDecimal monto;
-    private LocalDateTime fecha;
+
+    @Column(name = "monto")
+    private BigDecimal amount;
+
+    @Column(name = "fecha")
+    private LocalDateTime date;
+
+    @Column(name = "operacion")
+    private String type;
+
 }

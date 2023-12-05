@@ -11,11 +11,11 @@ public class CashExpressMapper {
 
         CashExpress cash = new CashExpress();
         cash.setCbu(dto.getCbu());
-        cash.setDireccion(dto.getDireccion());
-        cash.setFecha(dto.getFecha());
-        cash.setMonto(dto.getMonto());
-        cash.setNombre(dto.getNombre());
-
+        cash.setAddress(dto.getAddress());
+        cash.setDate(dto.getDate());
+        cash.setAmount(dto.getAmount());
+        cash.setName(dto.getName());
+        cash.setType(dto.getType());
         return cash;
     }
 
@@ -23,11 +23,11 @@ public class CashExpressMapper {
 
         CashExpressDto dto = new CashExpressDto();
         dto.setCbu(cash.getCbu());
-        dto.setDireccion(cash.getDireccion());
-        dto.setFecha(cash.getFecha());
-        dto.setMonto(cash.getMonto());
-        dto.setNombre(cash.getNombre());
-
+        dto.setAddress(cash.getAddress());
+        dto.setDate(cash.getDate());
+        dto.setAmount(cash.getAmount());
+        dto.setName(cash.getName());
+        dto.setType(cash.getType());
         return dto;
     }
 
