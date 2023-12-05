@@ -21,7 +21,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long referencia;
+    //private Long referencia;
 
     @Column(name = "tipo_cuenta")
     private AccountType type;
@@ -41,6 +41,9 @@ public class Account {
 
     @ManyToOne
     private User owner;
+
+    //@ManyToOne
+    //private int owner;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;

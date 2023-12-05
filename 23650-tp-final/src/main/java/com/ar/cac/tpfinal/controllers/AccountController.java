@@ -13,11 +13,15 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService service;
-    private final UserService userService;
+    //private final UserService userService;
 
-    private AccountController(AccountService service, UserService userService){
+    //private AccountController(AccountService service, UserService userService){
+    //    this.service = service;
+    //    this.userService = userService;
+    //}
+
+    private AccountController(AccountService service){
         this.service = service;
-        this.userService = userService;
     }
 
     @GetMapping
@@ -31,17 +35,16 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto account){
-
-        account.setOwner(userService.userToAssign(account.getReferencia()));
-        ResponseEntity<AccountDto> accountCreada = ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(account));
-
-        return accountCreada;
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.createAccount(dto));
+        //account.setOwner(userService.userToAssign(account.getReferencia()));
+        //ResponseEntity<AccountDto> accountCreada = ResponseEntity.status(HttpStatus.CREATED).body(service.createAccount(account));
+        //return accountCreada;
     }
 
     @PutMapping(value="/{id}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto account){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, account));
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, dto));
     }
 
     //Hacer la baja logica

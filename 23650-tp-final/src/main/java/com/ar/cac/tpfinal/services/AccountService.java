@@ -20,22 +20,35 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository repository;
-    private final UserService userService;
+    //private final UserService userService;
 
-    private AccountService(AccountRepository repository, UserService userService){
+    //private AccountService(AccountRepository repository, UserService userService){
+    //    this.repository = repository;
+    //    this.userService = userService;
+   //}
+
+    private AccountService(AccountRepository repository){
         this.repository = repository;
-        this.userService = userService;
+    }
+
+    public List<AccountDto> getAccounts() {
+        List<Account> accounts = repository.findAll();
+        List<AccountDto> accountDto = new ArrayList<AccountDto>();
+        for (Account account: accounts) {
+            if(account.getDeleted() == false) {
+                accountDto.add(AccountMapper.accountToDto(account));
+            }
+        }
+        return accountDto;
+
+        //return repository.findAll().stream()
+        //        .map(AccountMapper::accountToDto)
+        //        .collect(Collectors.toList());
     }
 
     public AccountDto getAccountById(Long id) {
         Account account = repository.findById(id).get();
         return AccountMapper.accountToDto(account);
-    }
-
-    public List<AccountDto> getAccounts() {
-        return repository.findAll().stream()
-                .map(AccountMapper::accountToDto)
-                .collect(Collectors.toList());
     }
 
     public AccountDto createAccount(AccountDto dto) {

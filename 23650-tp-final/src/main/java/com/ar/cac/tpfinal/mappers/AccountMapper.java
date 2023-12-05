@@ -27,7 +27,7 @@ public class AccountMapper {
         dto.setCreated_at(account.getCreated_at());
         dto.setUpdated_at(account.getCreated_at());
         dto.setTransfers(account.getTransfers());
-        dto.setReferencia(account.getReferencia());
+        //dto.setReferencia(account.getReferencia());
         return dto;
     }
 
@@ -44,7 +44,7 @@ public class AccountMapper {
         account.setCreated_at(dto.getCreated_at());
         account.setUpdated_at(dto.getCreated_at());
         account.setTransfers(dto.getTransfers());
-        account.setReferencia(dto.getReferencia());
+        //account.setReferencia(dto.getReferencia());
 
         return account;
     }

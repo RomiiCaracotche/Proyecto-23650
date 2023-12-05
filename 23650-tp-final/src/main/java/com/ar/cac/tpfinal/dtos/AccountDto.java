@@ -22,7 +22,7 @@ public class AccountDto {
 
     private Long id;
 
-    private Long referencia;
+    //private Long referencia;
 
     private AccountType type;
 
@@ -37,6 +37,7 @@ public class AccountDto {
     private LocalDateTime updated_at;
 
     private User owner;
+    //private int owner;
 
     private List<Transfer> transfers;
 
