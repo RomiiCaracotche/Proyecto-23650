@@ -1,6 +1,7 @@
 package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
+import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.services.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class AccountController {
     @GetMapping(value = "/cbu/{cbu}")
     public ResponseEntity<AccountDto> getAccountByCbu(@PathVariable String cbu){
         return ResponseEntity.status(HttpStatus.OK).body(service.getAccountByCbu(cbu));
+    }
+
+    @GetMapping(value = "/deleted")
+    public ResponseEntity<List<AccountDto>> getAccountsDeleted() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAccountsDeleted());
     }
 
     @PostMapping

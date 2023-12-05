@@ -52,7 +52,6 @@ public class UserService {
     public UserDto createUser(UserDto dto){
         User user = repository.findByEmail(dto.getEmail());
         if(user == null) {
-            dto.setDeleted(false);
             User entitySaved = repository.save(UserMapper.dtoTouser(dto));
             dto = UserMapper.userToDto(entitySaved);
             dto.setPassword("******");

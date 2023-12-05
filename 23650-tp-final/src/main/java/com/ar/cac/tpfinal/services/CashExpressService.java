@@ -27,7 +27,7 @@ public class CashExpressService {
         List<CashExpress> cashes = repository.findAll();
         List<CashExpressDto> cashesDto = new ArrayList<CashExpressDto>();
         for (CashExpress cash: cashes) {
-            if(cash.getCbu() == cbu) {
+            if(cash.getCbu().equals(cbu)) {
                 cashesDto.add(CashExpressMapper.cashToDto(cash));
             }
         }

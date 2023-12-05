@@ -22,6 +22,7 @@ public class CashExpressMapper {
     public static CashExpressDto cashToDto(CashExpress cash){
 
         CashExpressDto dto = new CashExpressDto();
+        dto.setId(cash.getId());
         dto.setCbu(cash.getCbu());
         dto.setAddress(cash.getAddress());
         dto.setDate(cash.getDate());

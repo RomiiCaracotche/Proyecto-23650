@@ -1,9 +1,12 @@
 package com.ar.cac.tpfinal.services;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
+import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Transfer;
+import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
+import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -39,6 +42,17 @@ public class AccountService {
     public AccountDto getAccountByCbu(String cbu) {
         Account account = repository.findByCbu(cbu);
         return AccountMapper.accountToDto(account);
+    }
+
+    public List<AccountDto> getAccountsDeleted(){
+        List<Account> accounts = repository.findAll();
+        List<AccountDto> accountsDto = new ArrayList<AccountDto>();
+        for (Account account: accounts) {
+            if(account.getDeleted()) {
+                accountsDto.add(AccountMapper.accountToDto(account));
+            }
+        }
+        return accountsDto;
     }
 
     public AccountDto createAccount(AccountDto dto) {

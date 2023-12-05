@@ -34,31 +34,33 @@ public class TransferService {
 
     public TransferDto getTransferById(Long id){
         Transfer transfer = repository.findById(id).get();
-        return TransferMapper.transferToDto(transfer);
+        if(transfer != null) {
+            return TransferMapper.transferToDto(transfer);
+        }
+        return null;
     }
 
     @Transactional
     public TransferDto createTransfer(TransferDto dto) {
         // Comprobar si ambas cuentas existen
-        Account originAccount = accountRepository.findById(dto.getOrigin()).get();
-        Account targetAccount = accountRepository.findById(dto.getTarget()).get();
+        Account originAccount = accountRepository.findByCbu(dto.getOrigin());
+        Account targetAccount = accountRepository.findByCbu(dto.getTarget());
 
-        // Comprobar si la cuenta tiene saldo
-        if (originAccount.getAmount().compareTo(dto.getAmount()) > 0) {
-            originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
-            targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
+        if(originAccount.getDeleted() == false && targetAccount.getDeleted() == false) {
+            if (originAccount.getAmount().compareTo(dto.getAmount()) > 0) {
+                originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
+                targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
 
-            accountRepository.save(originAccount);
-            accountRepository.save(targetAccount);
-
-            Transfer transfer = new Transfer();
-            transfer.setDate(LocalDateTime.now());
-            transfer.setOrigin(originAccount.getId());
-            transfer.setTarget(targetAccount.getId());
-            transfer.setAmount(dto.getAmount());
-            transfer = repository.save(transfer);
-
-            return TransferMapper.transferToDto(transfer);
+                accountRepository.save(originAccount);
+                accountRepository.save(targetAccount);
+                Transfer transfer = new Transfer();
+                transfer.setDate(LocalDateTime.now());
+                transfer.setOrigin(originAccount.getCbu());
+                transfer.setTarget(targetAccount.getCbu());
+                transfer.setAmount(dto.getAmount());
+                transfer = repository.save(transfer);
+                return TransferMapper.transferToDto(transfer);
+            }
         }
         return null;
     }

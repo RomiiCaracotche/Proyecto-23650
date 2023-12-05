@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -38,5 +37,4 @@ public class UserDto {
     private List<Account> accounts;
 
     private Boolean deleted;
-
 }

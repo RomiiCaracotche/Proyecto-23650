@@ -17,17 +17,14 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long origin;
+    private String origin;
 
-    private Long target;
+    private String target;
 
     @Column(name = "fecha")
     private LocalDateTime date;
 
     @Column(name = "monto")
     private BigDecimal amount;
-
-    @Column(name = "eliminado")
-    private String deleted;
 
 }

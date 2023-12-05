@@ -19,9 +19,9 @@ public class TransferDto {
 
     private Long id;
 
-    private Long origin;
+    private String origin;
 
-    private Long target;
+    private String target;
 
     private LocalDateTime date;
 
