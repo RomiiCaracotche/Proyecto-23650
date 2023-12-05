@@ -80,10 +80,13 @@ public class AccountService {
         }
     }
 
-    // TODO: hacer la baja logica!!!
     public String deleteAccount(Long id) {
         if (repository.existsById(id)){
-            repository.deleteById(id);
+            Account accountToDeleted = repository.findById(id).get();
+            if(accountToDeleted.getDeleted() == false){
+                accountToDeleted.setDeleted(true);
+                repository.save(accountToDeleted);
+            }
             return "Cuenta eliminada";
         } else {
             return "No se pudo eliminar la cuenta";
