@@ -23,12 +23,11 @@ public class AccountMapper {
         dto.setAlias(account.getAlias());
         dto.setAmount(account.getAmount());
         dto.setDeleted(account.getDeleted());
-        //dto.setOwner(account.getOwner());
-        dto.setId_owner(account.getId_owner());
+        dto.setOwner(account.getOwner());
+        //dto.setId_owner(account.getId_owner());
         dto.setCreated_at(account.getCreated_at());
         dto.setUpdated_at(account.getCreated_at());
         dto.setTransfers(account.getTransfers());
-        //dto.setReferencia(account.getReferencia());
         return dto;
     }
 
@@ -46,7 +45,6 @@ public class AccountMapper {
         account.setCreated_at(dto.getCreated_at());
         account.setUpdated_at(dto.getCreated_at());
         account.setTransfers(dto.getTransfers());
-        //account.setReferencia(dto.getReferencia());
 
         return account;
     }

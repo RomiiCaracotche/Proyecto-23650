@@ -2,8 +2,11 @@ package com.ar.cac.tpfinal.mappers;
 
 import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.dtos.UserDto;
+import lombok.experimental.UtilityClass;
+
 import java.time.LocalDateTime;
 
+@UtilityClass
 public class UserMapper {
 
     public static User dtoTouser(UserDto dto){
