@@ -2,6 +2,7 @@ package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.TransferDto;
 import com.ar.cac.tpfinal.services.TransferService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transfers")
 public class TransferController {
-    private final TransferService service;
+    @Autowired
+    private TransferService service;
 
-    private TransferController(TransferService service) {
-        this.service = service;
-    }
+    //private TransferController(TransferService service) {
+    //    this.service = service;
+    //}
 
     @GetMapping
     public ResponseEntity<List<TransferDto>> getTransfers() {

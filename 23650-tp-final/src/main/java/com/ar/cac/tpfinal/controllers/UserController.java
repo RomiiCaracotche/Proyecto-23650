@@ -12,11 +12,11 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
     @Autowired
-    private final UserService service;
+    private UserService service;
 
-    public UserController(UserService service){
-        this.service = service;
-    }
+    //public UserController(UserService service){
+    //    this.service = service;
+    //}
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {

@@ -12,11 +12,11 @@ import java.util.List;
 @RequestMapping("/api/cash")
 public class CashExpressController {
     @Autowired
-    private final CashExpressService service;
+    private CashExpressService service;
 
-    public CashExpressController(CashExpressService service){
-        this.service = service;
-    }
+    //public CashExpressController(CashExpressService service){
+    //    this.service = service;
+    //}
 
     @GetMapping(value = "/{cbu}")
     public ResponseEntity<List<CashExpressDto>> getCashesByCbu(@PathVariable String cbu) {

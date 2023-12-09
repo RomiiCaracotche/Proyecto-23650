@@ -14,11 +14,11 @@ import java.util.List;
 public class InvestmentController {
 
     @Autowired
-    private final InvestmentService service;
+    private InvestmentService service;
 
-    public  InvestmentController(InvestmentService service){
-        this.service = service;
-    }
+    //public  InvestmentController(InvestmentService service){
+    //    this.service = service;
+    //}
 
     @GetMapping
     public ResponseEntity<List<InvestmentDto>> getInvestments() {

@@ -8,6 +8,7 @@ import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
 import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
+import com.ar.cac.tpfinal.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,9 +19,11 @@ import java.util.List;
 public class AccountService {
 
     private final AccountRepository repository;
+    private final UserRepository userRepository;
 
-    public AccountService(AccountRepository repository){
+    public AccountService(AccountRepository repository, UserRepository userRepository){
         this.repository = repository;
+        this.userRepository = userRepository;
     }
 
     public List<AccountDto> getAccounts() {
@@ -58,8 +61,10 @@ public class AccountService {
     public AccountDto createAccount(AccountDto dto) {
         Account cbu = repository.findByCbu(dto.getCbu());
         Account alias = repository.findByAlias(dto.getAlias());
-        if(alias == null && cbu == null){
+        User user = userRepository.findById(dto.getOwner().getId()).get();
+        if(alias == null && cbu == null) {
             dto.setDeleted(false);
+            dto.setOwner(user);
             dto.setTransfers(new ArrayList<Transfer>());
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());

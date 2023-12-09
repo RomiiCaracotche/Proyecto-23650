@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
+    //@Autowired
     private UserRepository repository;
+
+    private UserService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public List<UserDto> getUsers(){
         List<User> users = repository.findAll();
@@ -52,6 +56,9 @@ public class UserService {
     public UserDto createUser(UserDto dto){
         User user = repository.findByEmail(dto.getEmail());
         if(user == null) {
+            dto.setCreated_at(LocalDateTime.now());
+            dto.setUpdated_at(LocalDateTime.now());
+            dto.setDeleted(false);
             User entitySaved = repository.save(UserMapper.dtoTouser(dto));
             dto = UserMapper.userToDto(entitySaved);
             dto.setPassword("******");

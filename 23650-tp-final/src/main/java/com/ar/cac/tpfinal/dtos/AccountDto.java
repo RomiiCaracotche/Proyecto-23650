@@ -38,7 +38,7 @@ public class AccountDto {
 
     private User owner;
 
-    private int id_owner;
+    //private int id_owner;
 
     private List<Transfer> transfers;
 

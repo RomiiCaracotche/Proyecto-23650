@@ -1,6 +1,7 @@
 package com.ar.cac.tpfinal.entities;
 
 import com.ar.cac.tpfinal.entities.Enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,10 +40,11 @@ public class Account {
     @Column(name = "fecha_modificacion")
     private LocalDateTime updated_at;
 
+    @JsonIgnore
     @ManyToOne
     private User owner;
 
-    private int id_owner;
+    //private int id_owner;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transfer> transfers;

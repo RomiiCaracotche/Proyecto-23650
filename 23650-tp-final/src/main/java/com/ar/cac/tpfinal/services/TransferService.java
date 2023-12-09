@@ -51,13 +51,16 @@ public class TransferService {
                 originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
                 targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
 
-                accountRepository.save(originAccount);
-                accountRepository.save(targetAccount);
                 Transfer transfer = new Transfer();
                 transfer.setDate(LocalDateTime.now());
                 transfer.setOrigin(originAccount.getCbu());
                 transfer.setTarget(targetAccount.getCbu());
                 transfer.setAmount(dto.getAmount());
+                List<Transfer> listTransfers = originAccount.getTransfers();
+                listTransfers.add(transfer);
+                originAccount.setTransfers(listTransfers);
+                accountRepository.save(originAccount);
+                accountRepository.save(targetAccount);
                 transfer = repository.save(transfer);
                 return TransferMapper.transferToDto(transfer);
             }
