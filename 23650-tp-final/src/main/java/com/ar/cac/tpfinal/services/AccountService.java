@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class AccountService {
@@ -65,6 +66,8 @@ public class AccountService {
         if(alias == null && cbu == null) {
             dto.setDeleted(false);
             dto.setOwner(user);
+            dto.setCbu(cbuGenerator(user.getDni()));
+            dto.setAlias(aliasGenerator(user.getUsername(), user.getDni()));
             dto.setTransfers(new ArrayList<Transfer>());
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());
@@ -103,6 +106,22 @@ public class AccountService {
         } else {
             return "No se pudo eliminar la cuenta";
         }
+    }
+
+    public String cbuGenerator(String dni){
+        String generatedCbu = dni;
+        Random random = new Random();
+        // Se itera las veces necesarias para completar los 22 dígitos de un CBU
+        for(int i = 0; i < (22 - dni.length()); i++){
+            generatedCbu = Integer.toString(random.nextInt(10)) + generatedCbu;
+        }
+        return generatedCbu;
+    }
+
+    public String aliasGenerator(String username, String dni){
+        // Se normaliza pasando a minúsculas, quitando los puntos existentes y reemplazando los espacios por puntos
+        return (username.toLowerCase().replace(".", "").replace(" ", ".") + "." + dni);
+
     }
 
 }
