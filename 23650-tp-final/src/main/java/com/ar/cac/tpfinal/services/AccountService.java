@@ -66,8 +66,8 @@ public class AccountService {
         if(alias == null && cbu == null) {
             dto.setDeleted(false);
             dto.setOwner(user);
-            dto.setCbu(cbuGenerator(user.getDni()));
-            dto.setAlias(aliasGenerator(user.getUsername(), user.getDni()));
+            dto.setCbu(cbuGenerator(user.getDni(), user.getAccounts().size()));
+            dto.setAlias(aliasGenerator(user.getUsername(), user.getDni(), user.getAccounts().size()));
             dto.setTransfers(new ArrayList<Transfer>());
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());
@@ -108,19 +108,22 @@ public class AccountService {
         }
     }
 
-    public String cbuGenerator(String dni){
-        String generatedCbu = dni;
+    public String cbuGenerator(String dni, Integer cantDeCuetas){
+        String generatedCbu = Integer.toString(cantDeCuetas) + dni;
         Random random = new Random();
         // Se itera las veces necesarias para completar los 22 dígitos de un CBU
+        // quedando números random + cantidad de cuentas + dni
         for(int i = 0; i < (22 - dni.length()); i++){
             generatedCbu = Integer.toString(random.nextInt(10)) + generatedCbu;
         }
         return generatedCbu;
     }
 
-    public String aliasGenerator(String username, String dni){
-        // Se normaliza pasando a minúsculas, quitando los puntos existentes y reemplazando los espacios por puntos
-        return (username.toLowerCase().replace(".", "").replace(" ", ".") + "." + dni);
+    public String aliasGenerator(String username, String dni, Integer cantDeCuetas){
+        // Se normaliza pasando a minúsculas, quitando los puntos existentes
+        // y reemplazando los espacios por puntos. Para que sea única se agrega la cantidad de cuentas como prefijo
+        // al número de DNI, numero que se actualiza cada vez que se crea una cuenta.
+        return (Integer.toString(cantDeCuetas) + "." + username.toLowerCase().replace(".", "").replace(" ", ".") + "." + dni);
 
     }
 
