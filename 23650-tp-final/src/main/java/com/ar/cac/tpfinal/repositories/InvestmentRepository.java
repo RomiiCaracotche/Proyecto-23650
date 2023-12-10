@@ -1,6 +1,5 @@
 package com.ar.cac.tpfinal.repositories;
 
-import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Investment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

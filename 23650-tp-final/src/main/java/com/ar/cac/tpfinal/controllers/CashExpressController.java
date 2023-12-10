@@ -14,10 +14,6 @@ public class CashExpressController {
     @Autowired
     private CashExpressService service;
 
-    //public CashExpressController(CashExpressService service){
-    //    this.service = service;
-    //}
-
     @GetMapping(value = "/{cbu}")
     public ResponseEntity<List<CashExpressDto>> getCashesByCbu(@PathVariable String cbu) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getCashesByCbu(cbu));

@@ -16,9 +16,6 @@ public class InvestmentController {
     @Autowired
     private InvestmentService service;
 
-    //public  InvestmentController(InvestmentService service){
-    //    this.service = service;
-    //}
 
     @GetMapping
     public ResponseEntity<List<InvestmentDto>> getInvestments() {

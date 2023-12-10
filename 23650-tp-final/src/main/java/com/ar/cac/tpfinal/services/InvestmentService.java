@@ -41,8 +41,8 @@ public class InvestmentService {
     }
 
     public InvestmentDto createInvestment(InvestmentDto dto) {
-        Account acc = accountRepository.findByCbu(dto.getCbu());
-        if(acc != null) {
+        Account account = accountRepository.findByCbu(dto.getCbu());
+        if(account != null) {
             double revenue = dto.getAmount()+dto.getAmount()*(double)dto.getDuration()*dto.getPercentage();
             dto.setRevenue(revenue);
             dto.setStart_date(LocalDateTime.now());

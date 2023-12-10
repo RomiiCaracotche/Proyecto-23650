@@ -10,7 +10,7 @@ public class CashExpressMapper {
     public static CashExpress dtoToCash(CashExpressDto dto){
 
         CashExpress cash = new CashExpress();
-        cash.setCbu(dto.getCbu());
+        cash.setOrigin(dto.getOrigin());
         cash.setAddress(dto.getAddress());
         cash.setDate(dto.getDate());
         cash.setAmount(dto.getAmount());
@@ -23,7 +23,7 @@ public class CashExpressMapper {
 
         CashExpressDto dto = new CashExpressDto();
         dto.setId(cash.getId());
-        dto.setCbu(cash.getCbu());
+        dto.setOrigin(cash.getOrigin());
         dto.setAddress(cash.getAddress());
         dto.setDate(cash.getDate());
         dto.setAmount(cash.getAmount());

@@ -1,6 +1,5 @@
 package com.ar.cac.tpfinal.dtos;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ public class CashExpressDto {
 
     private String address;
 
-    private String cbu;
+    private String origin;
 
     private BigDecimal amount;
 

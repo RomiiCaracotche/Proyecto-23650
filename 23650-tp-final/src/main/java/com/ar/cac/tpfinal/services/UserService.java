@@ -4,7 +4,6 @@ import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,18 +12,19 @@ import java.util.List;
 @Service
 public class UserService {
 
-    //@Autowired
     private UserRepository repository;
+    private AccountService accountService;
 
-    private UserService(UserRepository repository) {
+    private UserService(UserRepository repository, AccountService accountService) {
         this.repository = repository;
+        this.accountService = accountService;
     }
 
     public List<UserDto> getUsers(){
         List<User> users = repository.findAll();
         List<UserDto> usersDto = new ArrayList<UserDto>();
         for (User user: users) {
-            if(user.getDeleted() == false) {
+            if(!user.getDeleted()) {
                 usersDto.add(UserMapper.userToDto(user));
             }
         }
@@ -43,9 +43,9 @@ public class UserService {
     }
 
     public UserDto getUserById(Long id){
-        User user = repository.findById(id).get();
-        if(user != null) {
-            if(user.getDeleted() == false) {
+        if(repository.existsById(id)) {
+            User user = repository.findById(id).get();
+            if(!user.getDeleted()) {
                 user.setPassword("******");
                 return UserMapper.userToDto(user);
             }
@@ -54,24 +54,24 @@ public class UserService {
     }
 
     public UserDto createUser(UserDto dto){
-        User user = repository.findByEmail(dto.getEmail());
-        if(user == null) {
+        if(!repository.existsByEmail(dto.getEmail())) {
             dto.setCreated_at(LocalDateTime.now());
             dto.setUpdated_at(LocalDateTime.now());
             dto.setDeleted(false);
             User entitySaved = repository.save(UserMapper.dtoTouser(dto));
             dto = UserMapper.userToDto(entitySaved);
             dto.setPassword("******");
+            repository.save(UserMapper.dtoTouser(dto));
             return dto;
         }
         return null;
     }
 
-    //Put
+    //PUT
     public UserDto updateTotalUser(Long id, UserDto dto) {
         if (repository.existsById(id)){
             User userToModify = repository.findById(id).get();
-            if(userToModify.getDeleted() == false) {
+            if(!userToModify.getDeleted()) {
                 userToModify.setUsername(dto.getUsername());
                 userToModify.setPassword(dto.getPassword());
                 userToModify.setEmail(dto.getEmail());
@@ -86,13 +86,11 @@ public class UserService {
         return null;
     }
 
-    //Patch
+    //PATCH
     public UserDto updateParcialUser(Long id, UserDto dto) {
         if (repository.existsById(id)){
             User userToModify = repository.findById(id).get();
-            if(userToModify.getDeleted() == false) {
-                //User userToModify = repository.findById(id).get();
-
+            if(!userToModify.getDeleted()) {
                 if (dto.getUsername() != null) {
                     userToModify.setUsername(dto.getUsername());
                 }
@@ -123,7 +121,7 @@ public class UserService {
     public String deleteUser(Long id){
         if (repository.existsById(id)){
             User userToDeleted = repository.findById(id).get();
-            if(userToDeleted.getDeleted() == false) {
+            if(!userToDeleted.getDeleted()) {
                 userToDeleted.setDeleted(true);
                 repository.save(userToDeleted);
             }

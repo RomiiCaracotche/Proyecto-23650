@@ -1,7 +1,6 @@
 package com.ar.cac.tpfinal.controllers;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
-import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +14,6 @@ public class AccountController {
 
     @Autowired
     private AccountService service;
-    //private final AccountService service;
-
-    //public AccountController(AccountService service){
-    //    this.service = service;
-    //}
 
     @GetMapping
     public ResponseEntity<List<AccountDto>> getAccounts(){
@@ -46,7 +40,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(service.createAccount(dto));
     }
 
-    @PutMapping(value="/{id}")
+    @PatchMapping(value="/{id}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto dto){
         return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, dto));
     }

@@ -3,8 +3,6 @@ package com.ar.cac.tpfinal.dtos;
 import com.ar.cac.tpfinal.entities.Enums.AccountType;
 import com.ar.cac.tpfinal.entities.Transfer;
 import com.ar.cac.tpfinal.entities.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +20,6 @@ public class AccountDto {
 
     private Long id;
 
-    //private Long referencia;
-
     private AccountType type;
 
     private String cbu;
@@ -37,8 +33,6 @@ public class AccountDto {
     private LocalDateTime updated_at;
 
     private User owner;
-
-    //private int id_owner;
 
     private List<Transfer> transfers;
 

@@ -1,16 +1,13 @@
 package com.ar.cac.tpfinal.services;
 
 import com.ar.cac.tpfinal.dtos.AccountDto;
-import com.ar.cac.tpfinal.dtos.UserDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.Transfer;
 import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.AccountMapper;
-import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import com.ar.cac.tpfinal.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +28,7 @@ public class AccountService {
         List<Account> accounts = repository.findAll();
         List<AccountDto> accountDto = new ArrayList<AccountDto>();
         for (Account account: accounts) {
-            if(account.getDeleted() == false) {
+            if(!account.getDeleted()) {
                 accountDto.add(AccountMapper.accountToDto(account));
             }
         }
@@ -84,12 +81,8 @@ public class AccountService {
             if (dto.getAlias() != null){
                 acc.setAlias(dto.getAlias());
             }
-            if (dto.getAmount() != null){
-                acc.setAmount(dto.getAmount());
-            }
             repository.save(acc);
             return AccountMapper.accountToDto(acc);
-
         } else {
             return null;
         }
@@ -98,7 +91,7 @@ public class AccountService {
     public String deleteAccount(Long id) {
         if (repository.existsById(id)){
             Account accountToDeleted = repository.findById(id).get();
-            if(accountToDeleted.getDeleted() == false){
+            if(!accountToDeleted.getDeleted()){
                 accountToDeleted.setDeleted(true);
                 repository.save(accountToDeleted);
             }
@@ -108,22 +101,21 @@ public class AccountService {
         }
     }
 
-    public String cbuGenerator(String dni, Integer cantDeCuetas){
-        String generatedCbu = Integer.toString(cantDeCuetas) + dni;
+    public String cbuGenerator(String dni, Integer cantDeCuentas){
+        String generatedCbu = Integer.toString(cantDeCuentas) + dni;
         Random random = new Random();
-        // Se itera las veces necesarias para completar los 22 dígitos de un CBU
-        // quedando números random + cantidad de cuentas + dni
-        for(int i = 0; i < (22 - dni.length()); i++){
+        // itera 22 veces quedando números random + cantidad de cuentas + dni
+        for(int i = 0; i < (21 - dni.length()); i++){
             generatedCbu = Integer.toString(random.nextInt(10)) + generatedCbu;
         }
         return generatedCbu;
     }
 
-    public String aliasGenerator(String username, String dni, Integer cantDeCuetas){
+    public String aliasGenerator(String username, String dni, Integer cantDeCuentas){
         // Se normaliza pasando a minúsculas, quitando los puntos existentes
         // y reemplazando los espacios por puntos. Para que sea única se agrega la cantidad de cuentas como prefijo
         // al número de DNI, numero que se actualiza cada vez que se crea una cuenta.
-        return (Integer.toString(cantDeCuetas) + "." + username.toLowerCase().replace(".", "").replace(" ", ".") + "." + dni);
+        return (Integer.toString(cantDeCuentas) + "." + username.toLowerCase().replace(".", "").replace(" ", ".") + "." + dni);
 
     }
 

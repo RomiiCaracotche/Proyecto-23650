@@ -14,9 +14,6 @@ public class TransferController {
     @Autowired
     private TransferService service;
 
-    //private TransferController(TransferService service) {
-    //    this.service = service;
-    //}
 
     @GetMapping
     public ResponseEntity<List<TransferDto>> getTransfers() {
@@ -29,8 +26,8 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity<TransferDto> createTransfer(@RequestBody TransferDto transfer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createTransfer(transfer));
+    public ResponseEntity<TransferDto> createTransfer(@RequestBody TransferDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createTransfer(dto));
     }
 
 }

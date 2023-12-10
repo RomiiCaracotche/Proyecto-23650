@@ -27,7 +27,7 @@ public class CashExpress {
     @Column(name = "direccion")
     private String address;
 
-    private String cbu;
+    private String origin;
 
     @Column(name = "monto")
     private BigDecimal amount;

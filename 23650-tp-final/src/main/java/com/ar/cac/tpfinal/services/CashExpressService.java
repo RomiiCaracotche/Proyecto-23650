@@ -27,7 +27,7 @@ public class CashExpressService {
         List<CashExpress> cashes = repository.findAll();
         List<CashExpressDto> cashesDto = new ArrayList<CashExpressDto>();
         for (CashExpress cash: cashes) {
-            if(cash.getCbu().equals(cbu)) {
+            if(cash.getOrigin().equals(cbu)) {
                 cashesDto.add(CashExpressMapper.cashToDto(cash));
             }
         }
@@ -48,29 +48,52 @@ public class CashExpressService {
     }
 
     private CashExpressDto extraer(CashExpressDto dto){
-        Account account = accountRepository.findByCbu(dto.getCbu());
-        if (account != null) {
-            if (account.getAmount().compareTo(dto.getAmount()) == 1 || account.getAmount().compareTo(dto.getAmount()) == 0) {
-                BigDecimal montoRestante = account.getAmount().subtract(dto.getAmount());
-                account.setAmount(montoRestante);
-                accountRepository.save(account);
-                dto.setDate(LocalDateTime.now());
-                CashExpress cash = repository.save(CashExpressMapper.dtoToCash(dto));
-                return CashExpressMapper.cashToDto(cash);
-            }
+        Account account;
+        CashExpressDto cashDto = new CashExpressDto();
+
+        if (accountRepository.existsByCbu(dto.getOrigin())) {
+            account = accountRepository.findByCbu(dto.getOrigin());
+            cashDto = doExtraer(account, dto);
+        }
+        if(accountRepository.existsByAlias(dto.getOrigin())) {
+            account = accountRepository.findByAlias(dto.getOrigin());
+            cashDto = doExtraer(account, dto);
+        }
+        return cashDto;
+    }
+
+    private CashExpressDto doExtraer(Account account, CashExpressDto dto) {
+        if (account.getAmount().compareTo(dto.getAmount()) == 1 || account.getAmount().compareTo(dto.getAmount()) == 0) {
+            BigDecimal montoRestante = account.getAmount().subtract(dto.getAmount());
+            account.setAmount(montoRestante);
+            accountRepository.save(account);
+            dto.setDate(LocalDateTime.now());
+            CashExpress cash = repository.save(CashExpressMapper.dtoToCash(dto));
+            return CashExpressMapper.cashToDto(cash);
         }
         return null;
     }
 
     private CashExpressDto depositar(CashExpressDto dto){
-        Account account = accountRepository.findByCbu(dto.getCbu());
-        if (account != null) {
-                account.setAmount(account.getAmount().add(dto.getAmount()));
-                accountRepository.save(account);
-                dto.setDate(LocalDateTime.now());
-                CashExpress cash = repository.save(CashExpressMapper.dtoToCash(dto));
-                return CashExpressMapper.cashToDto(cash);
-            }
-        return null;
+        Account account;
+        CashExpressDto cashDto = new CashExpressDto();
+
+        if (accountRepository.existsByCbu(dto.getOrigin())) {
+            account = accountRepository.findByCbu(dto.getOrigin());
+            cashDto = doDepositar(account, dto);
+        }
+        if(accountRepository.existsByAlias(dto.getOrigin())) {
+            account = accountRepository.findByAlias(dto.getOrigin());
+            cashDto = doDepositar(account, dto);
+        }
+        return cashDto;
+    }
+
+    private CashExpressDto doDepositar(Account account, CashExpressDto dto) {
+            account.setAmount(account.getAmount().add(dto.getAmount()));
+            accountRepository.save(account);
+            dto.setDate(LocalDateTime.now());
+            CashExpress cash = repository.save(CashExpressMapper.dtoToCash(dto));
+            return CashExpressMapper.cashToDto(cash);
     }
 }

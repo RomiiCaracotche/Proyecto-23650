@@ -42,28 +42,68 @@ public class TransferService {
 
     @Transactional
     public TransferDto createTransfer(TransferDto dto) {
-        // Comprobar si ambas cuentas existen
-        Account originAccount = accountRepository.findByCbu(dto.getOrigin());
-        Account targetAccount = accountRepository.findByCbu(dto.getTarget());
 
-        if(originAccount.getDeleted() == false && targetAccount.getDeleted() == false) {
-            if (originAccount.getAmount().compareTo(dto.getAmount()) > 0) {
-                originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
-                targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
+        Account accountOrigin, accountTarget;
+        TransferDto transferDto = new TransferDto();
+        Transfer transfer = new Transfer();
 
-                Transfer transfer = new Transfer();
-                transfer.setDate(LocalDateTime.now());
-                transfer.setOrigin(originAccount.getCbu());
-                transfer.setTarget(targetAccount.getCbu());
-                transfer.setAmount(dto.getAmount());
-                List<Transfer> listTransfers = originAccount.getTransfers();
-                listTransfers.add(transfer);
-                originAccount.setTransfers(listTransfers);
-                accountRepository.save(originAccount);
-                accountRepository.save(targetAccount);
-                transfer = repository.save(transfer);
-                return TransferMapper.transferToDto(transfer);
+        //vienen ambos por cbu
+        if(accountRepository.existsByCbu(dto.getOrigin()) && accountRepository.existsByCbu(dto.getTarget())) {
+            accountOrigin = accountRepository.findByCbu(dto.getOrigin());
+            accountTarget = accountRepository.findByCbu(dto.getTarget());
+            if(!accountOrigin.getDeleted() && !accountTarget.getDeleted()) {
+                transferDto = doTransfer(accountOrigin, accountTarget, dto, transfer);
             }
+        }
+
+        //vienen ambos por alias
+        if(accountRepository.existsByAlias(dto.getOrigin()) && accountRepository.existsByAlias(dto.getTarget()))  {
+            accountOrigin = accountRepository.findByAlias(dto.getOrigin());
+            accountTarget = accountRepository.findByAlias(dto.getTarget());
+            if(!accountOrigin.getDeleted() && !accountTarget.getDeleted()) {
+                transferDto = doTransfer(accountOrigin, accountTarget, dto, transfer);
+            }
+        }
+
+        //viene origin por alias y target por cbu
+        if(accountRepository.existsByAlias(dto.getOrigin()) && accountRepository.existsByCbu(dto.getTarget())) {
+            accountOrigin = accountRepository.findByAlias(dto.getOrigin());
+            accountTarget = accountRepository.findByCbu(dto.getTarget());
+            if(!accountOrigin.getDeleted() && !accountTarget.getDeleted()) {
+                transferDto = doTransfer(accountOrigin, accountTarget, dto, transfer);
+            }
+        }
+
+        //viene origin por cbu y target por alias
+        if(accountRepository.existsByCbu(dto.getOrigin()) && accountRepository.existsByAlias(dto.getTarget())) {
+            accountOrigin = accountRepository.findByCbu(dto.getOrigin());
+            accountTarget = accountRepository.findByAlias(dto.getTarget());
+            if(!accountOrigin.getDeleted() && !accountTarget.getDeleted()) {
+                transferDto = doTransfer(accountOrigin, accountTarget, dto, transfer);
+            }
+        }
+
+        return transferDto;
+
+    }
+
+    private TransferDto doTransfer(Account originAccount, Account targetAccount, TransferDto dto, Transfer transfer) {
+        if (originAccount.getAmount().compareTo(dto.getAmount()) > 0) {
+            originAccount.setAmount(originAccount.getAmount().subtract(dto.getAmount()));
+            targetAccount.setAmount(targetAccount.getAmount().add(dto.getAmount()));
+
+            transfer.setDate(LocalDateTime.now());
+            transfer.setOrigin(originAccount.getCbu());
+            transfer.setTarget(targetAccount.getCbu());
+            transfer.setAmount(dto.getAmount());
+            List<Transfer> listTransfers = originAccount.getTransfers();
+            listTransfers.add(transfer);
+            originAccount.setTransfers(listTransfers);
+            accountRepository.save(originAccount);
+            accountRepository.save(targetAccount);
+            transfer = repository.save(transfer);
+
+            return TransferMapper.transferToDto(transfer);
         }
         return null;
     }

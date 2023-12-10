@@ -14,10 +14,6 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    //public UserController(UserService service){
-    //    this.service = service;
-    //}
-
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUsers());

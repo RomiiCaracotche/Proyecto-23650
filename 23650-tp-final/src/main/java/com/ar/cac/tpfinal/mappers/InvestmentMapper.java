@@ -1,10 +1,7 @@
 package com.ar.cac.tpfinal.mappers;
 
-import com.ar.cac.tpfinal.dtos.CashExpressDto;
 import com.ar.cac.tpfinal.dtos.InvestmentDto;
-import com.ar.cac.tpfinal.entities.CashExpress;
 import com.ar.cac.tpfinal.entities.Investment;
-import jakarta.persistence.Column;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
