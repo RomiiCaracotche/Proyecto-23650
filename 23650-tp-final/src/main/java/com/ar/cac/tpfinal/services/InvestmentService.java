@@ -35,15 +35,19 @@ public class InvestmentService {
         return InvestmentMapper.investmentToDto(investment);
     }
 
-    public InvestmentDto getInvestmentByCbu(String cbu) {
-        Investment investment = repository.findByCbu(cbu);
-        return InvestmentMapper.investmentToDto(investment);
+    public List<InvestmentDto> getInvestmentByCbu(String cbu) {
+        List<Investment> investments = repository.findAllByCbu(cbu);
+        List<InvestmentDto> investmentDto = new ArrayList<>();
+        for (Investment investment: investments){
+            investmentDto.add(InvestmentMapper.investmentToDto(investment));
+        }
+        return investmentDto;
     }
 
     public InvestmentDto createInvestment(InvestmentDto dto) {
         Account account = accountRepository.findByCbu(dto.getCbu());
         if(account != null) {
-            double revenue = dto.getAmount()+dto.getAmount()*(double)dto.getDuration()*dto.getPercentage();
+            double revenue = dto.getAmount()+(((dto.getAmount()*dto.getPercentage()))/100)*(double)dto.getDuration();
             dto.setRevenue(revenue);
             dto.setStart_date(LocalDateTime.now());
             dto.setFinish_date(LocalDateTime.now().plusMonths(dto.getDuration()));

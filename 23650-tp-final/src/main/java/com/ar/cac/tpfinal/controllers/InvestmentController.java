@@ -28,7 +28,7 @@ public class InvestmentController {
     }
 
     @GetMapping(value = "/cbu/{cbu}")
-    public ResponseEntity<InvestmentDto> getInvestmentByCbu(@PathVariable String cbu) {
+    public ResponseEntity<List<InvestmentDto>> getInvestmentByCbu(@PathVariable String cbu) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getInvestmentByCbu(cbu));
     }
 
