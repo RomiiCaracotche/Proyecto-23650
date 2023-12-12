@@ -3,7 +3,9 @@ package com.ar.cac.tpfinal.services;
 import com.ar.cac.tpfinal.dtos.CashExpressDto;
 import com.ar.cac.tpfinal.entities.Account;
 import com.ar.cac.tpfinal.entities.CashExpress;
+import com.ar.cac.tpfinal.entities.User;
 import com.ar.cac.tpfinal.mappers.CashExpressMapper;
+import com.ar.cac.tpfinal.mappers.UserMapper;
 import com.ar.cac.tpfinal.repositories.AccountRepository;
 import com.ar.cac.tpfinal.repositories.CashExpressRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,15 @@ public class CashExpressService {
     private CashExpressService (CashExpressRepository repository, AccountRepository accountRepository) {
         this.repository = repository;
         this.accountRepository = accountRepository;
+    }
+
+    public List<CashExpressDto> getCashes(){
+        List<CashExpress> cashes = repository.findAll();
+        List<CashExpressDto> cashesDto = new ArrayList<CashExpressDto>();
+        for (CashExpress cash: cashes) {
+            cashesDto.add(CashExpressMapper.cashToDto(cash));
+        }
+        return cashesDto;
     }
 
     public List<CashExpressDto> getCashesByCbu(String cbu){
